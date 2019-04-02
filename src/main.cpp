@@ -1,12 +1,7 @@
 #include <iostream>
+#include "algo.hpp"
 
-#include "gtest/gtest.h"
-
-TEST(TestGTest, TestGTestInit) {
-  ASSERT_TRUE(true);
-}
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+int main() {
+    std::cout << add(5, 8) << std::endl;
+    return 0;
 }
