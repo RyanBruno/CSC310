@@ -3,12 +3,8 @@
 #include "gtest/gtest.h"
 #include "algo.hpp"
 
-TEST(TestGTest, TestGTestInit) {
-  ASSERT_TRUE(true);
-}
-
-TEST(TestAlgo, TestAdding) {
-  ASSERT_TRUE(add(5, 6) == 11);
+TEST(TestAlgo, TestCompile) {
+    //
 }
 
 int main(int argc, char **argv) {
