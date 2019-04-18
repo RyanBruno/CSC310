@@ -6,7 +6,7 @@ int main() {
     std::array<float, 3> output;
     std::array<float, 3>::iterator output_it= output.begin();
 
-    scanline<3>(polygon.cbegin(), 2, output_it);
+    scanline<3>(polygon, 1, output_it);
 
     std::for_each(output.begin(), output_it, [](const float& result) 
     {
