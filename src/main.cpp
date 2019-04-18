@@ -1,14 +1,17 @@
-#include <iostream>
-#include <array>
+#include "pch.hpp"
 #include "algo.hpp"
 
 int main() {
-    std::array<Point, 3> polygon;
-    polygon[0] = Point{0,0};
-    polygon[1] = Point{1,2};
-    polygon[2] = Point{2,0};
+    std::array<Point, 3> polygon {{{0,0}, {1,2}, {2,0}}};
+    std::array<float, 3> output;
+    std::array<float, 3>::iterator output_it= output.begin();
 
-    scanline(polygon.begin(), polygon.end(), 1);
+    scanline(polygon.begin(), polygon.end(), 2, output_it);
+
+    std::for_each(output.begin(), output_it, [](const float& result) 
+    {
+        std::cout << result << std::endl;
+    });
     
     return 0;
 }
