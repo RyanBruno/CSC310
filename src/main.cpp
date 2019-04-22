@@ -8,6 +8,8 @@ int main() {
 
     scanline<3>(polygon, 1, output_it);
 
+    std::sort(output.begin(), output_it);
+
     std::for_each(output.begin(), output_it, [](const float& result) 
     {
         std::cout << result << std::endl;
