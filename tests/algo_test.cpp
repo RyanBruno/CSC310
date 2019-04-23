@@ -9,7 +9,7 @@ TEST(TestAlgo, TestTriangle) {
     std::array<float, 3> output;
     std::array<float, 3>::iterator output_it= output.begin();
 
-    scanline<3>(polygon, 1, output_it);
+    scanline<3>(polygon, output_it);
 
     ASSERT_EQ(output[0], 1.5);
     ASSERT_EQ(output[1], .5);
