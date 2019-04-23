@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/AlgoTests.dir/tests/algo_test.cpp.o  -o AlgoTests extern/googletest/googlemock/gtest/libgtest.a -pthread 
