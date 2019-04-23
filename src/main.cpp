@@ -2,17 +2,13 @@
 #include "algo.hpp"
 
 int main() {
-    std::array<Point, 3> polygon {{{0,0}, {1,2}, {2,0}}};
-    std::array<float, 3> output;
-    std::array<float, 3>::iterator output_it= output.begin();
+    std::array<Point, 3> polygon {{{0,0}, {50,100}, {100,0}}};
 
-    scanline<3>(polygon, 1, output_it);
+    auto output = scanline<3>(polygon);
 
-    std::sort(output.begin(), output_it);
-
-    std::for_each(output.begin(), output_it, [](const float& result) 
+    std::for_each(output.begin(), output.end(), [](const Point& result) 
     {
-        std::cout << result << std::endl;
+        std::cout << result.x << "," << result.y << std::endl;
     });
     
     return 0;

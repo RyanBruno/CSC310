@@ -1,4 +1,5 @@
 #include "pch.hpp"
+#include <climits>
 
 struct Point {
     int x;
@@ -10,25 +11,29 @@ struct Polygon {
     std::array<Point, I> points;
 };
 
-template <int I, typename OutputIterator>
-void scanline(const std::array<Point, I>& polygon,
-              OutputIterator& output)
-{
-    unsigned int max_y = 0;
-    unsigned int min_y = UINT_MAX;
-    std::for_each(polygon.begin(), polygon.end(), [](const Polygon& p)
+bool point_compare (const Point& p_1, const Point& p_2) {
+    if (p_1.y == p_2.y)
     {
-        if (p.y > max_y)
-        {
-            max_y = p.y;
-        }
-        if (p.y < min_y)
-        {
-            min_y = p.y;
-        }
-    });
+        return p_1.x < p_2.x;
+    }
+    return p_1.y < p_2.y;
+}
 
-    for (int y = min_y; y < max_y; y++)
+struct point_cmp {
+    bool operator() (const Point& p_1, const Point& p_2) {
+        return point_compare(p_1, p_2);
+    }
+};
+
+template <int I>
+std::set<Point, point_cmp>
+scanline(const std::array<Point, I>& polygon)
+{
+    std::set<Point, point_cmp> result;
+
+    auto min_max = std::minmax_element(polygon.begin(), polygon.end(), point_compare);
+
+    for (int y = min_max.first->y; y < min_max.second->y; y++)
     {
         for (int i = 0; i < I; i++)
         {
@@ -41,22 +46,21 @@ void scanline(const std::array<Point, I>& polygon,
                 y <= std::max(p_1.y, p_2.y))
             {
                  // x = (y - y_1) (x_2 - x_1)/(y_2 - y_1) + x_1
-                float point_x = (y - p_1.y) * ((float) (p_2.x - p_1.x) / (p_2.y - p_1.y)) + p_1.x;
+                int point_x = (int) ((y - p_1.y) * ((float) (p_2.x - p_1.x) / (p_2.y - p_1.y)) + p_1.x);
 
                 if (point_x == p_1.x)
                 {
                     if (std::min({p_0.y, p_1.y, p_2.y}) != p_1.y &&
                         std::max({p_0.y, p_1.y, p_2.y}) != p_1.y)
                     {
-                        *output = point_x;
-                        output++;
+                        result.insert({point_x, y});
                     }
                 } else if (point_x != p_2.x)
                 {
-                    *output = point_x;
-                    output++;
+                    result.insert({point_x, y});
                 }
             }
         }
     }
+    return result;
 }
