@@ -19,17 +19,11 @@ bool point_compare (const Point& p_1, const Point& p_2) {
     return p_1.y < p_2.y;
 }
 
-struct point_cmp {
-    bool operator() (const Point& p_1, const Point& p_2) {
-        return point_compare(p_1, p_2);
-    }
-};
-
 template <int I>
 std::set<Point, point_cmp>
 scanline(const std::array<Point, I>& polygon)
 {
-    std::set<Point, point_cmp> result;
+    std::set<Point, decltype(point_compare)> result(point_compare);
 
     auto min_max = std::minmax_element(polygon.begin(), polygon.end(), point_compare);
 

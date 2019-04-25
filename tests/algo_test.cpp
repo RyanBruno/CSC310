@@ -4,28 +4,23 @@
 #include "algo.hpp"
 #include <cstdlib>
 
-template <int I> void generate_polygon(std::array<Point, I>& polygon);
-
-
-TEST(TestAlgo, TestTriangle) 
+TEST(TestAlgo, TestMaxMin) 
 {
-    std::array<Point, 3> polygon;
-//    scanline<3>(polygon, output_it);
+    const std::array<Point, 4> polygon = {{{0,0}, {0, 10}, {10,10}, {10, 0}}};
+    auto result = scanline(polygon);
 
+    ASSERT_EQ(result.size() / 2, 9);
 }
 
-template <int I>
-void generate_polygon(
-        std::array<Point, I>& polygon)
+TEST(TestAlgo, TestPointX)
 {
-    std::for_each(polygon.begin(), polygon.end(), [](Point& p)
-    {
-        std::srand(std::time(nullptr));
-        p.x = std::rand() % 1000;
-        EXPECT_TRUE(false) << p.x;
-        p.y = std::rand() % 1000;
-        EXPECT_TRUE(false) << p.y;
-    });
+    const std::array<Point, 3> polygon = {{{0,0}, {10, 10}, {10,0}}};
+    auto result = scanline(polygon);
+
+    ASSERT_EQ(result.size(), 18);
+
+//    std::array<Point, 10> correct = {{{1,1}}};
+
 }
 
 int main(int argc, char **argv) {

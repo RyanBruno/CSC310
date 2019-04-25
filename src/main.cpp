@@ -2,7 +2,7 @@
 #include "algo.hpp"
 
 int main() {
-    std::array<Point, 3> polygon {{{0,0}, {50,100}, {100,0}}};
+    const std::array<Point, 3> polygon = {{{0,0}, {10, 10}, {10,0}}};
 
     auto output = scanline<3>(polygon);
 
