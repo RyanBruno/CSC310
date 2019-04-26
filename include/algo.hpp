@@ -48,7 +48,6 @@ scanline(const std::array<Point, I>& polygon)
                  // x = (y - y_1) (x_2 - x_1)/(y_2 - y_1) + x_1
                 int point_x = (int) ((y - p_1.y) * ((float) (p_2.x - p_1.x) / (p_2.y - p_1.y)) + p_1.x);
 
-                std::cout << "De" << point_x << "," << y << std::endl;
                 if (point_x == p_1.x && y == p_1.y)
                 {
                     if (std::min({p_0.y, p_1.y, p_2.y}) != p_1.y &&
