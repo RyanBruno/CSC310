@@ -12,15 +12,15 @@ TEST(TestAlgo, TestPointX)
     const std::array<Point, 3> polygon = {{{0,0}, {5, 5}, {5,0}}};
     auto result = scanline<3>(polygon);
 
-    ASSERT_EQ(result.size(), 9);
+    ASSERT_EQ(result.size(), 8);
 
-    std::set<Point, point_cmp> correct = {{{1,1},{5,1},{2,2},{5,2},{3,3},{5,3},{4,4},{5,4},{5,5},{5,5}}};
+    std::set<Point, point_cmp> correct = {{{1,1},{5,1},{2,2},{5,2},{3,3},{5,3},{4,4},{5,4}}};
 
     auto mismatch = std::mismatch(result.begin(), result.end(), correct.begin());
 
     ASSERT_TRUE(mismatch.first == result.end());
 
-    ASSERT_TRUE(mismatch.second == result.end());
+    ASSERT_TRUE(mismatch.second == correct.end());
 }
 
 TEST(TestAlgo, TestLocalMinMax)
@@ -37,7 +37,7 @@ TEST(TestAlgo, TestLocalMinMax)
 
     ASSERT_TRUE(mismatch.first == result.end());
 
-    ASSERT_TRUE(mismatch.second == result.end());
+    ASSERT_TRUE(mismatch.second == correct.end());
 }
 
 TEST(TestAlgo, TestLocalNotMinMax)
@@ -54,6 +54,6 @@ TEST(TestAlgo, TestLocalNotMinMax)
 
     ASSERT_TRUE(mismatch.first == result.end());
 
-    ASSERT_TRUE(mismatch.second == result.end());
+    ASSERT_TRUE(mismatch.second == correct.end());
 }
 
