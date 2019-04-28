@@ -30,21 +30,22 @@ struct point_cmp {
     }
 };
 
-template <int I>
+template <int I, typename RandomAccessIterator>
 std::set<Point, point_cmp>
-scanline(const std::array<Point, I>& polygon)
+scanline(const RandomAccessIterator& polygon_begin)
 {
     std::set<Point, point_cmp> result;
 
-    auto min_max = std::minmax_element(polygon.begin(), polygon.end(), point_compare);
+    auto min_max = std::minmax_element(polygon_begin, polygon_begin + I, point_compare);
 
     for (int y = min_max.first->y; y < min_max.second->y; y++)
     {
-        for (int i = 0; i < I; i++)
+        for (RandomAccessIterator i = polygon_begin;
+             i != polygon_begin + I; i++)
         {
-            Point p_0 = polygon[i];
-            Point p_1 = polygon[(i + 1) % I];
-            Point p_2 = polygon[(i + 2) % I];
+            Point p_0 = *i;
+            Point p_1 = *(polygon_begin + ((i - polygon_begin + 1) % I));
+            Point p_2 = *(polygon_begin + ((i - polygon_begin + 2) % I));
 
             if (p_2.y != p_1.y &&
                 y >= std::min(p_1.y, p_2.y) &&

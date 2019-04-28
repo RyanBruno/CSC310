@@ -8,7 +8,7 @@ void generate_polygon(
 int main() {
     const std::array<Point, 3> polygon = {{{0,0}, {10, 10}, {10,0}}};
 
-    auto output = scanline<3>(polygon);
+    auto output = scanline<3>(polygon.begin());
 
     std::for_each(output.begin(), output.end(), [](const Point& result) 
     {
@@ -34,7 +34,7 @@ std::cout << std::endl;
     std::cout << std::endl;
     
     auto initial = std::time(nullptr);
-    auto output2 = scanline<10000>(polygon2);
+    auto output2 = scanline<10000>(polygon2.begin());
     auto time = std::time(nullptr) - initial;
     std::cout << time << std::endl;
 
