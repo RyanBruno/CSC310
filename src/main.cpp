@@ -1,54 +1,6 @@
 #include "pch.hpp"
 #include "algo.hpp"
-#include <ctime>
-template <int I>
-void generate_polygon(
-        std::array<Point, I>& polygon, const int& n);
-
-int main() {
-    const std::array<Point, 3> polygon = {{{0,0}, {10, 10}, {10,0}}};
-
-    auto output = scanline<3>(polygon.begin());
-
-    std::for_each(output.begin(), output.end(), [](const Point& result) 
-    {
-        std::cout << result.x << "," << result.y << std::endl;
-    });
-
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::array<Point, 10000> polygon2;
-
-    generate_polygon<10000>(polygon2, 10000);
-
-std::for_each(polygon2.begin(), polygon2.end(), [](const Point& result) 
-    {
-        //std::cout << result.x << "," << result.y << std::endl;
-    });
-
-std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
-    
-    auto initial = std::time(nullptr);
-    auto output2 = scanline<10000>(polygon2.begin());
-    auto time = std::time(nullptr) - initial;
-    std::cout << time << std::endl;
-
-
-
-    std::for_each(output2.begin(), output2.end(), [](const Point& result) 
-    {
-        std::cout << result.x << "," << result.y << std::endl;
-    });
-
-
-    
-    return 0;
-}
+#include <chrono>
 
 template <int I>
 void generate_polygon(
@@ -57,10 +9,76 @@ void generate_polygon(
     std::srand(std::time(nullptr));
     polygon[0] = {0,0};
     polygon[1] = {0,n};
-    std::for_each(polygon.begin() + 2, polygon.end(), [&](Point& p)
+
+    std::for_each(polygon.begin() + 2, polygon.end(), [&n](Point& p)
     {
         p.x = std::rand() % 1000;
         p.y = std::rand() % n;
-        std::cout << "De " << p.x << "," << p.y << std::endl;
     });
 }
+
+template <int M>
+void time_algo(std::array<Point, 1500> data, int n)
+{
+    data[1].y = n;
+    auto start = std::chrono::steady_clock::now();
+
+    scanline<M>(data.begin());
+
+	auto end = std::chrono::steady_clock::now();
+    std::cout << M << "\t" << n << "\t" << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << std::endl;
+}
+
+int main() {
+    std::array<Point, 1500> data;
+    generate_polygon<1500>(data, 10);
+
+    std::cout << "M\tN\tns" << std::endl;
+
+    /* time_algo<M>(data, N) */
+    time_algo<10>(data, 10);
+    time_algo<10>(data, 50);
+    time_algo<10>(data, 100);
+    time_algo<10>(data, 500);
+    time_algo<10>(data, 1000);
+    time_algo<10>(data, 1500);
+
+    time_algo<50>(data, 10);
+    time_algo<50>(data, 50);
+    time_algo<50>(data, 100);
+    time_algo<50>(data, 500);
+    time_algo<50>(data, 1000);
+    time_algo<50>(data, 1500);
+
+    time_algo<100>(data, 10);
+    time_algo<100>(data, 50);
+    time_algo<100>(data, 100);
+    time_algo<100>(data, 500);
+    time_algo<100>(data, 1000);
+    time_algo<100>(data, 1500);
+
+    time_algo<500>(data, 10);
+    time_algo<500>(data, 50);
+    time_algo<500>(data, 100);
+    time_algo<500>(data, 500);
+    time_algo<500>(data, 1000);
+    time_algo<500>(data, 1500);
+
+    time_algo<1000>(data, 10);
+    time_algo<1000>(data, 50);
+    time_algo<1000>(data, 100);
+    time_algo<1000>(data, 500);
+    time_algo<1000>(data, 1000);
+    time_algo<1000>(data, 1500);
+
+    time_algo<1500>(data, 10);
+    time_algo<1500>(data, 50);
+    time_algo<1500>(data, 100);
+    time_algo<1500>(data, 500);
+    time_algo<1500>(data, 1000);
+    time_algo<1500>(data, 1500);
+
+
+    return 0;
+}
+
