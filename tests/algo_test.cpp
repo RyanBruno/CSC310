@@ -2,7 +2,7 @@
 TEST(TestAlgo, TestMaxMin) 
 {
     const std::array<Point, 4> polygon = {{{0,0}, {0, 10}, {10,10}, {10, 0}}};
-    auto result = scanline<4>(polygon.begin());
+    auto result = scanline(polygon.begin(), 4);
 
     ASSERT_EQ(result.size() / 2, 9);
 }
@@ -10,7 +10,7 @@ TEST(TestAlgo, TestMaxMin)
 TEST(TestAlgo, TestPointX)
 {
     const std::array<Point, 3> polygon = {{{0,0}, {5, 5}, {5,0}}};
-    auto result = scanline<3>(polygon.begin());
+    auto result = scanline(polygon.begin(), 3);
 
     ASSERT_EQ(result.size(), 8);
 
@@ -26,7 +26,7 @@ TEST(TestAlgo, TestPointX)
 TEST(TestAlgo, TestLocalMinMax)
 {
     const std::array<Point, 5> polygon = {{{0,0}, {0, 4}, {2,2}, {4,4}, {4,0}}};
-    auto result = scanline<5>(polygon.begin());
+    auto result = scanline(polygon.begin(), 5);
 
 
     ASSERT_EQ(result.size(), 8);
@@ -43,7 +43,7 @@ TEST(TestAlgo, TestLocalMinMax)
 TEST(TestAlgo, TestLocalNotMinMax)
 {
     const std::array<Point, 5> polygon = {{{0,0}, {0, 4}, {3,4}, {1,2}, {3,0}}};
-    auto result = scanline<5>(polygon.begin());
+    auto result = scanline(polygon.begin(), 5);
 
 
     ASSERT_EQ(result.size(), 6);
