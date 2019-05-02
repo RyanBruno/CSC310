@@ -4,7 +4,7 @@
 
 template <int I>
 void generate_polygon(
-        std::array<Point, I>& polygon, const unsigned int& n)
+        std::array<Point, I>& polygon, const int& n)
 {
     std::srand(std::time(nullptr));
     polygon[0] = {0,0};
@@ -18,9 +18,10 @@ void generate_polygon(
 }
 
 template <int M>
-void time_algo(std::array<Point, 1500> data, int n)
+void time_algo(int n)
 {
-    data[1].y = n;
+    std::array<Point, M> data;
+    generate_polygon<M>(data, n);
     auto start = std::chrono::steady_clock::now();
 
     scanline(data.begin(), M);
@@ -30,53 +31,51 @@ void time_algo(std::array<Point, 1500> data, int n)
 }
 
 int main() {
-    std::array<Point, 1500> data;
-    generate_polygon<1500>(data, 10);
 
     std::cout << "M\tN\tns" << std::endl;
 
-    /* time_algo<M>(data, N) */
-    time_algo<10>(data, 10);
-    time_algo<10>(data, 50);
-    time_algo<10>(data, 100);
-    time_algo<10>(data, 500);
-    time_algo<10>(data, 1000);
-    time_algo<10>(data, 1500);
+    /* time_algo<M>(n) */
+    time_algo<10>(10);
+    time_algo<10>(50);
+    time_algo<10>(100);
+    time_algo<10>(500);
+    time_algo<10>(1000);
+    time_algo<10>(1500);
 
-    time_algo<50>(data, 10);
-    time_algo<50>(data, 50);
-    time_algo<50>(data, 100);
-    time_algo<50>(data, 500);
-    time_algo<50>(data, 1000);
-    time_algo<50>(data, 1500);
+    time_algo<50>(10);
+    time_algo<50>(50);
+    time_algo<50>(100);
+    time_algo<50>(500);
+    time_algo<50>(1000);
+    time_algo<50>(1500);
 
-    time_algo<100>(data, 10);
-    time_algo<100>(data, 50);
-    time_algo<100>(data, 100);
-    time_algo<100>(data, 500);
-    time_algo<100>(data, 1000);
-    time_algo<100>(data, 1500);
+    time_algo<100>(10);
+    time_algo<100>(50);
+    time_algo<100>(100);
+    time_algo<100>(500);
+    time_algo<100>(1000);
+    time_algo<100>(1500);
 
-    time_algo<500>(data, 10);
-    time_algo<500>(data, 50);
-    time_algo<500>(data, 100);
-    time_algo<500>(data, 500);
-    time_algo<500>(data, 1000);
-    time_algo<500>(data, 1500);
+    time_algo<500>(10);
+    time_algo<500>(50);
+    time_algo<500>(100);
+    time_algo<500>(500);
+    time_algo<500>(1000);
+    time_algo<500>(1500);
 
-    time_algo<1000>(data, 10);
-    time_algo<1000>(data, 50);
-    time_algo<1000>(data, 100);
-    time_algo<1000>(data, 500);
-    time_algo<1000>(data, 1000);
-    time_algo<1000>(data, 1500);
+    time_algo<1000>(10);
+    time_algo<1000>(50);
+    time_algo<1000>(100);
+    time_algo<1000>(500);
+    time_algo<1000>(1000);
+    time_algo<1000>(1500);
 
-    time_algo<1500>(data, 10);
-    time_algo<1500>(data, 50);
-    time_algo<1500>(data, 100);
-    time_algo<1500>(data, 500);
-    time_algo<1500>(data, 1000);
-    time_algo<1500>(data, 1500);
+    time_algo<1500>(10);
+    time_algo<1500>(50);
+    time_algo<1500>(100);
+    time_algo<1500>(500);
+    time_algo<1500>(1000);
+    time_algo<1500>(1500);
 
 
     return 0;

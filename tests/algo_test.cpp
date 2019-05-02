@@ -42,13 +42,13 @@ TEST(TestAlgo, TestLocalMinMax)
 
 TEST(TestAlgo, TestLocalNotMinMax)
 {
-    const std::array<Point, 5> polygon = {{{0,0}, {0, 4}, {3,4}, {1,2}, {3,0}}};
-    auto result = scanline(polygon.begin(), 5);
+    const std::array<Point, 5> polygon = {{{0,0}, {0, 4}, {3,4}, {5,2}, {3,0}}};
 
+    auto result = scanline(polygon.begin(), 5);
 
     ASSERT_EQ(result.size(), 6);
 
-    std::set<Point> correct = {{{0,1},{2,1},{0,2},{1,2},{0,3},{2,3}}};
+    std::set<Point> correct = {{{0,1},{4,1},{0,2},{5,2},{0,3},{4,3}}};
 
     auto mismatch = std::mismatch(result.begin(), result.end(), correct.begin());
 

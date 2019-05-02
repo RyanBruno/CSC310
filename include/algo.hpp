@@ -2,8 +2,10 @@
 #include <climits>
 
 struct Point {
-    unsigned int x;
-    unsigned int y;
+    int x;
+    int y;
+
+    bool min_or_max;
 
     bool operator< (const Point& other) const
     {
@@ -16,7 +18,7 @@ struct Point {
 
     bool operator== (const Point& other) const
     {
-        return false;
+        return x == other.x && y == other.y;
     }
 };
 
@@ -24,8 +26,8 @@ struct Edge {
     Point p_1; // Always lower y
     Point p_2; // Always Greater y
 
-    double cur_x; // Starts at p_1.x, moves with y
-    double delta_x;
+    float cur_x; // Starts at p_1.x, moves with y
+    float delta_x;
 
     bool operator< (const Edge& other) const
     {
@@ -44,20 +46,24 @@ struct Polygon {
 };
 
 template <typename RandomAccessIterator>
-std::set<Point>
+std::vector<Point>
 scanline(const RandomAccessIterator& polygon_begin, const int& len)
 {
-    std::set<Point> result;// TODO change
+    std::vector<Point> result;
     std::vector<Edge> edge;
+    int max_y = 0;
 
     for (int i = 0; i < len; i++)
     {
-        Point p_1 = polygon_begin[i];
-        Point p_2 = polygon_begin[(i + 1) % len];
+        Point p_0 = polygon_begin[i];
+        Point p_1 = polygon_begin[(i + 1) % len];
+        Point p_2 = polygon_begin[(i + 2) % len];
 
         if (p_2.y == p_1.y)
             continue;
 
+        p_1.min_or_max = std::min({p_0.y, p_1.y, p_2.y}) == p_1.y ||
+                         std::max({p_0.y, p_1.y, p_2.y}) == p_1.y;
         if (p_2.y < p_1.y)
         {
             Point temp = p_1;
@@ -65,55 +71,50 @@ scanline(const RandomAccessIterator& polygon_begin, const int& len)
             p_2 = temp;
         }
 
+        if (p_2.y > max_y)
+            max_y = p_2.y;
+
         edge.push_back(Edge());
         edge.back().p_1 = p_1;
         edge.back().p_2 = p_2;
-        edge.back().delta_x = (double) (p_2.x - p_1.x) / (p_2.y - p_1.y);
-        edge.back().cur_x = (double) p_1.x;
+        edge.back().delta_x = (float) (p_2.x - p_1.x) / (p_2.y - p_1.y);
+        edge.back().cur_x = (float) p_1.x;
     }
 
     std::sort(std::begin(edge), std::end(edge));
 
-    std::for_each(edge.begin(), edge.end(), [] (const Edge& edge)
-    {
-        std::cout << edge.p_1.x << "," << edge.p_1.y << "-" << edge.p_2.x << "," << edge.p_2.y << "\t" << edge.cur_x << " + " << edge.delta_x << std::endl;
-    });
-
     int j = 0;
     int k = 0;
 
-    std::cout << "min: " << edge.front().p_1.y << ", max: " << edge.back().p_2.y << std::endl;
-
-    for (int y = edge[0].p_1.y; y < edge.back().p_2.y; y++)
+    for (int y = edge[0].p_1.y; y < max_y; y++)
     {
-        std::cout << "j: " << j << ", k: " << k << ", y: " << y << std::endl;
         for (int i = j; i < k; i++)
-        {
-            
-            std::cout << "Added: " << edge[i].cur_x << " to " << edge[i].delta_x << std::endl;
             edge[i].cur_x += edge[i].delta_x;
-        }
 
-        while (edge[k].p_1.y == y && k < edge.size()) {
+        while (edge[k].p_1.y == y && k < edge.size())
             k++;
-            std::cout << "k++" << std::endl;
-        }
 
         // Sort [j, k) by cur_x
-        std::sort(std::begin(edge) + j, std::begin(edge) + k);
+        std::sort(std::begin(edge) + j, std::begin(edge) + k, [](const Edge& e_1, const Edge& e_2)
+        {
+            return e_1.cur_x < e_2.cur_x;
+        });
 
         for (int i = j; i < k; i++)
         {
-
-            // TODO Check for local min/max
-            result.insert({(unsigned int) edge[i].cur_x, (unsigned int) y});
-            std::cout << "helow" << std::endl;
+            if (edge[i].p_1.y != y &&
+               (edge[i].p_2.y != y || !edge[i].p_2.min_or_max))
+            {
+                result.push_back(Point());
+                result.back().x = (int) edge[i].cur_x;
+                result.back().y = (int) y;
+            }
 
             if (edge[i].p_2.y == y)
             {
                 Edge temp = edge[i];
-                edge[i] = edge[k];
-                edge[k] = temp;
+                edge[i] = edge[j];
+                edge[j] = temp;
                 j++;
             }
         }
