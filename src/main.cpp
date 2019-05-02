@@ -10,7 +10,7 @@ int main(int argc, const char* argv[])
 
     std::cout << "Enter points:" << std::endl;
 
-    while (true)
+    /*while (true)
     {
         std::getline(std::cin, input);
 
@@ -30,9 +30,19 @@ int main(int argc, const char* argv[])
         points.emplace_back(Point());
         points.back().x = std::stoi(input);
         points.back().y = std::stoi(input.substr(pos));
-    }
+    }*/
+    points.emplace_back(Point{0,0});
+    points.emplace_back(Point{5,5});
+    points.emplace_back(Point{5,0});
 
-    auto results = scanline(points.begin(), points.size());
+    const std::array<Point, 5> polygon = {{{0,0}, {0, 4}, {3,4}, {1,2}, {3,0}}};
+    auto results = scanline(polygon.begin(), 5);
+
+//    auto results = scanline(points.begin(), points.size());
+//
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
     std::for_each(results.begin(), results.end(), [] (const Point& p)
     {

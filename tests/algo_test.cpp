@@ -14,7 +14,7 @@ TEST(TestAlgo, TestPointX)
 
     ASSERT_EQ(result.size(), 8);
 
-    std::set<Point, point_cmp> correct = {{{1,1},{5,1},{2,2},{5,2},{3,3},{5,3},{4,4},{5,4}}};
+    std::set<Point> correct = {{{1,1},{5,1},{2,2},{5,2},{3,3},{5,3},{4,4},{5,4}}};
 
     auto mismatch = std::mismatch(result.begin(), result.end(), correct.begin());
 
@@ -31,7 +31,7 @@ TEST(TestAlgo, TestLocalMinMax)
 
     ASSERT_EQ(result.size(), 8);
 
-    std::set<Point, point_cmp> correct = {{{0,1},{4,1},{0,2},{4,2},{0,3},{1,3},{3,3},{4,3}}};
+    std::set<Point> correct = {{{0,1},{4,1},{0,2},{4,2},{0,3},{1,3},{3,3},{4,3}}};
 
     auto mismatch = std::mismatch(result.begin(), result.end(), correct.begin());
 
@@ -48,7 +48,7 @@ TEST(TestAlgo, TestLocalNotMinMax)
 
     ASSERT_EQ(result.size(), 6);
 
-    std::set<Point, point_cmp> correct = {{{0,1},{2,1},{0,2},{1,2},{0,3},{2,3}}};
+    std::set<Point> correct = {{{0,1},{2,1},{0,2},{1,2},{0,3},{2,3}}};
 
     auto mismatch = std::mismatch(result.begin(), result.end(), correct.begin());
 

@@ -4,7 +4,7 @@
 
 template <int I>
 void generate_polygon(
-        std::array<Point, I>& polygon, const int& n)
+        std::array<Point, I>& polygon, const unsigned int& n)
 {
     std::srand(std::time(nullptr));
     polygon[0] = {0,0};
